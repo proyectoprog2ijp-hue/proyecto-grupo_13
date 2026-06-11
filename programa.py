@@ -1,6 +1,5 @@
-import codecs;
+import codecs
 import csv
-import streamlit as st
 
 def apertura_archivo() -> list:
     '''
@@ -8,6 +7,10 @@ def apertura_archivo() -> list:
     si es así abre el archivo alojado en dirección y retorna
     una lista de diccionarios con los datos del .csv
     de lo contrario retorna una lista vacía
+
+    Returns:
+        list: lista de diccionarios con los datos del archivo.
+        list: lista vacía en caso de error con la extensión.
     '''
     direccion = "establecimientos-educativos-12K.csv"
 
@@ -22,7 +25,9 @@ def apertura_archivo() -> list:
 def contador() -> tuple[int, int, int, int]:
     '''
     cuenta los establecimientos según su ámbito y devuelve una tupla.
-    con el total de los contadores: contador_urbano, contador_disperso, contador_agrupado, contador_error
+    
+    Retrun:
+        tupla: contador_urbano, contador_disperso, contador_agrupado, contador_error
     '''
     datos = apertura_archivo()
 
@@ -39,15 +44,23 @@ def contador() -> tuple[int, int, int, int]:
         elif categoria["ambito"] == "Rural Agrupado":
             contador_agrupado += 1
         else:
-            print(categoria["ambito"])
             contador_error += 1
     
     return contador_urbano, contador_disperso, contador_agrupado, contador_error
 
-def controlador():
+def controlador() -> tuple:
+    """
+    Coordina la ejecución del programa.
 
+    Verifica si el archivo pudo abrirse correctamente.
+    En ese caso, realiza el conteo de establecimientos.
+
+    Returns:
+        tupla: Resultado de la función contador().
+        tupla: vacía, en caso de extensión incorrecta.
+    """
     if apertura_archivo() == []:
-        salida = ("Archivo inválido")
+        salida = ()
     else:
         salida = contador()
     
