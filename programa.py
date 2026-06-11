@@ -19,9 +19,10 @@ def apertura_archivo() -> list:
 
     return salida
 
-def contador() -> int int int:
+def contador() -> tuple[int, int, int, int]:
     '''
-    
+    cuenta los establecimientos según su ámbito y devuelve una tupla.
+    con el total de los contadores: contador_urbano, contador_disperso, contador_agrupado, contador_error
     '''
     datos = apertura_archivo()
 
@@ -41,13 +42,13 @@ def contador() -> int int int:
             print(categoria["ambito"])
             contador_error += 1
     
-    print(contador_urbano, contador_agrupado,contador_error,contador_disperso)
+    return contador_urbano, contador_disperso, contador_agrupado, contador_error
 
-
-def main():
+def controlador():
 
     if apertura_archivo() == []:
-        print("Archivo inválido")
+        salida = ("Archivo inválido")
     else:
-        contador()
-main()
+        salida = contador()
+    
+    return salida
