@@ -2,18 +2,35 @@ import codecs;
 import csv
 import streamlit as st
 
+def apertura_archivo() -> list:
+    '''
+    La función comprueba que el archivo dado sea de tipo .csv
+    si es así abre el archivo alojado en dirección y retorna
+    una lista de diccionarios con los datos del .csv
+    de lo contrario retorna una lista vacía
+    '''
+    direccion = "establecimientos-educativos-12K.csv"
 
-def read():
-    archivo = open("establecimientos-educativos-12K.csv", newline='')
-    lista_datos = list(csv.DictReader(archivo))
+    if direccion[-4:] == ".csv":
+        archivo = open(direccion, newline='')
+        salida = list(csv.DictReader(archivo))
+    else:
+        salida = []
 
+    return salida
+
+def contador() -> int int int:
+    '''
+    
+    '''
+    datos = apertura_archivo()
 
     contador_error = 0
     contador_agrupado = 0
     contador_disperso = 0
     contador_urbano = 0
 
-    for categoria in lista_datos:
+    for categoria in datos:
         if categoria["ambito"] == "Urbano":
             contador_urbano += 1
         elif categoria["ambito"] == "Rural Disperso":
@@ -28,6 +45,9 @@ def read():
 
 
 def main():
-    read()
 
+    if apertura_archivo() == []:
+        print("Archivo inválido")
+    else:
+        contador()
 main()
