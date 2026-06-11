@@ -4,7 +4,7 @@ import streamlit as st
 
 
 def read():
-    archivo = open("establecimientos-educativos-12K.csv", newline='')
+    archivo = open("recorte.csv", newline='')
     lista_datos = list(csv.DictReader(archivo))
 
 
@@ -14,20 +14,22 @@ def read():
     contador_urbano = 0
 
     for categoria in lista_datos:
-        if categoria["ambito"] == "Urbano":
+        if categoria == "urbano":
             contador_urbano += 1
-        elif categoria["ambito"] == "Rural Disperso":
+        elif categoria == "rural_disperso":
             contador_disperso += 1
-        elif categoria["ambito"] == "Rural Agrupado":
+        elif categoria == "rural_agrupado":
             contador_agrupado += 1
         else:
-            print(categoria["ambito"])
             contador_error += 1
     
-    print(contador_urbano, contador_agrupado,contador_error,contador_disperso)
+    print(lista_datos)
 
 
 def main():
     read()
 
 main()
+
+
+
