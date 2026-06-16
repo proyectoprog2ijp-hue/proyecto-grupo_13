@@ -32,7 +32,13 @@ def datos() -> dict:
 
 def mapa():
     nombre, latitud, longitud, contador= prueba_mapa.mapa_modalidad()
-    st.map(latitude=latitud, longitude=longitud, size=20, color="#0044ff")
+    
+    dict_coordenadas = {
+        "latitude": latitud,
+        "longitude": longitud
+    }
+
+    st.map(data=dict_coordenadas, size=20, color="#0044ff", zoom=6)
 
 
 
