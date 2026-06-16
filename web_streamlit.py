@@ -7,6 +7,8 @@ educativos según su ámbito de localización.
 '''
 import streamlit as st
 import programa
+import prueba_mapa
+
 
 def datos() -> dict:
     '''
@@ -28,6 +30,12 @@ def datos() -> dict:
 
     return salida
 
+def mapa():
+    nombre, latitud, longitud, contador= prueba_mapa.mapa_modalidad()
+    st.map(latitude=latitud, longitude=longitud, size=20, color="#0044ff")
+
+
+
 def main():
     """
     Función principal de la aplicación.
@@ -47,4 +55,5 @@ def main():
     else:
         st.bar_chart(resultado)
 
+    mapa()
 main()
