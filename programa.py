@@ -11,6 +11,11 @@ def apertura_archivo() -> list:
     Returns:
         list: lista de diccionarios con los datos del archivo.
         list: lista vacía en caso de error con la extensión.
+    
+    Ejemplos:
+        apertura_archivo() -> [{"establecimiento_nombre": "Esc A", "ambito": "Urbano", ...}, ...]
+        apertura_archivo() -> [{"establecimiento_nombre": "Esc B", "ambito": "Rural Disperso", ...}, ...]
+        apertura_archivo() -> [] #Si el archivo no tiene extensión .csv
     '''
     direccion = "establecimientos-educativos-12K.csv"
 
@@ -22,12 +27,17 @@ def apertura_archivo() -> list:
 
     return salida
 
-def contador() -> tuple[int, int, int, int]:
+def contador_ambito() -> tuple[int, int, int, int]:
     '''
     cuenta los establecimientos según su ámbito y devuelve una tupla.
     
     Retrun:
         tupla: contador_urbano, contador_disperso, contador_agrupado, contador_error
+    
+    Ejemplos:
+        contador_ambito() -> (1026, 1083, 654, 2)
+        contador_ambito() -> (0, 0, 0, 0)  #Si no hay datos
+        contador_ambito() -> (1, 0, 0, 0)  #Si hay solo un Establecimiento Urbano
     '''
     datos = apertura_archivo()
 
@@ -48,6 +58,38 @@ def contador() -> tuple[int, int, int, int]:
     
     return contador_urbano, contador_disperso, contador_agrupado, contador_error
 
+def modalidad(modalidad_entrada:str) -> tuple[list, list, list, int]:
+    '''
+    Filtra los establecimientos cuya modalidad coincide con
+    modalidad_entrada()
+
+    Return:
+        lista: nombre de escuelas
+        lista: latitudes
+        lista: longitudes
+        int: contador de escuelas de dicha modalidad
+    
+    Ejemplos:
+        modalidad("Educación Común")     -> (["Esc A", ...], [-34.3, ...], [-60.2, ...], 5)
+        modalidad("Educación Artística") -> (["Esc B"], [-37.9], [-61.3], 1)
+        modalidad("No existe")           -> ([], [], [], 0)
+    '''
+    datos = apertura_archivo()
+
+    contador_comun = 0
+    lista_nombre = []
+    lista_latitud = []
+    lista_longitud = []
+
+    for modalidad_tabla in datos:
+        if modalidad_tabla["modalidad"] == modalidad_entrada:
+            contador_comun += 1
+            lista_nombre.append(modalidad_tabla["establecimiento_nombre"])
+            lista_latitud.append(float(modalidad_tabla["latitud"]))
+            lista_longitud.append(float(modalidad_tabla["longitud"]))
+
+    return lista_nombre, lista_latitud, lista_longitud, contador_comun
+
 def controlador() -> tuple:
     """
     Coordina la ejecución del programa.
@@ -58,10 +100,15 @@ def controlador() -> tuple:
     Returns:
         tupla: Resultado de la función contador().
         tupla: vacía, en caso de extensión incorrecta.
+    
+    Ejemplos:
+        controlador() -> (10261, 1083, 654, 2)
+        controlador() -> (1, 0, 0, 0)  #Si solo hay un establecimiento urbano)
+        controlador() -> ()            #Si el archivo no es .csv)
     """
     if apertura_archivo() == []:
         salida = ()
     else:
-        salida = contador()
+        salida = contador_ambito()
     
     return salida

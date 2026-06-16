@@ -3,7 +3,7 @@ import csv
 import programa 
 
 
-def mapa_modalidad():
+def mapa_modalidad(modalidad_entrada):
     datos = programa.apertura_archivo()
 
     contador_comun = 0
@@ -11,14 +11,11 @@ def mapa_modalidad():
     lista_latitud = []
     lista_longitud = []
 
-    for modalidad in datos:
-        if modalidad["modalidad"] == "Educación Común":
+    for modalidad_tabla in datos:
+        if modalidad_tabla["modalidad"] == modalidad_entrada:
             contador_comun += 1
-            lista_nombre.append(modalidad["establecimiento_nombre"])
-            lista_latitud.append(float(modalidad["latitud"]))
-            lista_longitud.append(float(modalidad["longitud"]))
+            lista_nombre.append(modalidad_tabla["establecimiento_nombre"])
+            lista_latitud.append(float(modalidad_tabla["latitud"]))
+            lista_longitud.append(float(modalidad_tabla["longitud"]))
 
-    return lista_nombre, lista_latitud, lista_longitud, contador_comun
-
-mapa_modalidad()
- 
+    return lista_nombre, lista_latitud, lista_longitud, contador_comun 
