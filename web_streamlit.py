@@ -7,7 +7,6 @@ educativos según su ámbito de localización.
 '''
 import streamlit as st
 import programa
-import prueba_mapa
 
 
 def datos() -> dict:
