@@ -35,10 +35,12 @@ def mapa():
     
     dict_coordenadas = {
         "latitude": latitud,
-        "longitude": longitud
+        "longitude": longitud,
+        "name": nombre  # Agregamos la lista de nombres
     }
 
-    st.map(data=dict_coordenadas, size=20, color="#0044ff", zoom=6)
+    st.map(data=dict_coordenadas, size=20, color="#0044ff", zoom=6
+           )
 
 
 
