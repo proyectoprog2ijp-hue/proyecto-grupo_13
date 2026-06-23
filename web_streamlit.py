@@ -7,6 +7,7 @@ educativos según su ámbito de localización.
 '''
 import streamlit as st
 import programa
+import matplotlib.pyplot as plt
 
 
 def datos() -> dict:
@@ -20,19 +21,13 @@ def datos() -> dict:
         datos() -> {}  (si el archivo no es .csv)
     '''
     resultado = programa.controlador()
-    
-    if resultado == ():
-        salida = {}
-    else:
-        urbano, disperso, agrupado, error = resultado
-        salida = {
-    "Cant. Urbano": urbano,
-    "Cant. Rural Disperso": disperso,
-    "Cant. Rural Agrupado": agrupado,
-    "Errores de datos": error
-    }
 
-    return salida
+    urbano, disperso, agrupado, error = resultado
+
+    lista_x = ["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"]
+    lista_y = [urbano, disperso, agrupado, error]
+
+    return lista_x, lista_y
 
 def elecciones_modalidades() -> list:
     '''
@@ -68,21 +63,19 @@ def mapa() -> None:
 def main() -> None:
     """
     Función principal de la aplicación.
-
-    Muestra el título y la primer pregunta estática desarrollada.
-    Luego grafica los resultados obtenidos o informa un error
-    si el archivo no posee extensión .csv.
     """
-
     st.title('Proyecto grupal de Programación 2')
     st.write('¿Cómo es la distribución de las escuelas según su ámbito de localización?')
 
-    resultado = datos()
+    x, y = datos()
 
-    if resultado == {}:
-        st.error("El archivo no tiene extensión .csv")
-    else:
-        st.bar_chart(resultado)
+    fig, ax = plt.subplots(facecolor="#2D2D2F")
+    ax.set_facecolor("#2B2B2B")
+    bar_container = ax.bar(x, y)
+    ax.set(ylabel='Cantidad de escuelas', title='Ámbitos escolares', ylim=(0, 12000))
+    ax.bar_label(bar_container, fmt='{:,.0f}')
+
+    st.pyplot(fig)
 
     mapa()
 main()
