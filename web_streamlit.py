@@ -38,15 +38,13 @@ def elecciones_modalidades() -> list:
     '''
     dEfinimos las modalidades de las escuelas de la provincia de Bs Aires.
     '''
-    return [
-        "Educación Artística",
-        "Educación Común",
-        "Educación Especial",
-        "Educación Física",
-        "Educación Técnico Profesional",
-        "Educación de Jóvenes y Adultos",
-        "Psicología Comunitaria y Pedagogía Social"
-        ]
+    lista = programa.apertura_archivo()
+    modalidades = []
+    for i in lista:
+        if i["modalidad"] not in modalidades:
+            modalidades.append(i["modalidad"]) 
+    return modalidades
+        
 
 def mapa() -> None:
     '''
