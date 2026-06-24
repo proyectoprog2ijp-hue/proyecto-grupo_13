@@ -10,15 +10,10 @@ import programa
 import matplotlib.pyplot as plt
 
 
-def datos() -> dict:
+def datos() -> list:
     '''
     Obtiene los datos procesados por el módulo programa y los
-    transforma en un diccionario apto para ser graficado.
-
-    Ejemplos  :
-        datos() -> {"Cant. Urbano": 10261, "Cant. Rural Disperso": 1083, ...}
-        datos() -> {"Cant. Urbano": 1, "Cant. Rural Disperso": 0, ...}
-        datos() -> {}  (si el archivo no es .csv)
+    transforma en una lista para ser graficado.
     '''
     resultado = programa.controlador()
 
@@ -59,6 +54,12 @@ def mapa() -> None:
     }
     st.map(data=dict_coordenadas, size=50, color="#0044ff", zoom=5)
 
+def barra_niveles() -> None:
+    '''
+    toma el resultado de la funcion programa.niveles_escuela() y lo grafica en la web mostrando las cantidades
+    de escuelas de cada nivel a traves de un grafico de barras
+    '''
+    
 
 def main() -> None:
     """
@@ -78,4 +79,5 @@ def main() -> None:
     st.pyplot(fig)
 
     mapa()
+    barra_niveles()
 main()

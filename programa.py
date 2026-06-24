@@ -36,8 +36,8 @@ def contador_ambito() -> tuple[int, int, int, int]:
     
     Ejemplos:
         contador_ambito() -> (1026, 1083, 654, 2)
-        contador_ambito() -> (0, 0, 0, 0)  #Si no hay datos
-        contador_ambito() -> (1, 0, 0, 0)  #Si hay solo un Establecimiento Urbano
+        contador_ambito() -> (0, 0, 0, 0)  Si no hay datos
+        contador_ambito() -> (1, 0, 0, 0)  Si hay solo un Establecimiento Urbano
     '''
     datos = apertura_archivo()
 
@@ -112,3 +112,59 @@ def controlador() -> tuple:
         salida = contador_ambito()
     
     return salida
+
+def niveles_escuela() -> tuple:
+    '''
+    filtra los niveles de escuela y retorna una tupla con la cantidad de
+    escuelas de cada nivel, en el siguiente orden:
+    niveles_escuela() -> (ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, 
+                         for_profesional, casos_extras, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres,
+                        residencia_laboral_pasantias_artistica)
+    ejemplos:
+    niveles_escuela() -> (1200, 800, 10000) Si hay 1200 escuelas de nvl. inicial, 800 de nvl. primario y 10000 nvl. secundario
+    niveles_escuela() -> (0, 0, 0) Si no hay escuelas de ningun nivel
+    niveles_escuela() -> (23, 0, 0)Si solo hay 23 escuelas de nivel inicial
+    '''
+    datos = apertura_archivo()
+    ciclo_iniciacion = 0
+    inicial = 0
+    primario = 0
+    secundario = 0
+    for_integral = 0
+    superior = 0
+    plan_fines = 0
+    ed_fisica = 0
+    for_profesional = 0
+    ciclo_medio = 0
+    psico_comun_pedagogia_social = 0
+    cursos_talleres = 0
+    residencia_laboral_pasantias_artistica = 0
+    for nivel in datos:
+        if nivel["nivel"] == "Ciclo de Iniciación":
+            ciclo_iniciacion += 1
+        elif nivel["nivel"] == "Nivel Inicial":
+            inicial += 1
+        elif nivel["nivel"] == "Nivel Primario":
+            primario += 1
+        elif nivel["nivel"] == "Nivel Secundario":
+            secundario += 1
+        elif nivel["nivel"] == "Formación Integral":
+            for_integral += 1
+        elif nivel["nivel"] == "Nivel Superior":
+            superior += 1
+        elif nivel["nivel"] == "Plan Fines (Trayectos y Deudores)":
+            plan_fines += 1
+        elif nivel["nivel"] == "Educación Física (C.E.F.)":
+            ed_fisica += 1
+        elif nivel["nivel"] == "Formación Profesional":
+            for_profesional += 1
+        elif nivel["nivel"] == "Ciclo Medio":
+            ciclo_medio += 1
+        elif nivel["nivel"] == "Psicología Comunitaria y Pedagogía Social (C.E.C)":
+            psico_comun_pedagogia_social += 1
+        elif nivel["nivel"] == "Cursos y Talleres":
+            cursos_talleres += 1
+        else:
+            residencia_laboral_pasantias_artistica += 1
+    return ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, for_profesional, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres, residencia_laboral_pasantias_artistica
+
