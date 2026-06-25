@@ -50,21 +50,27 @@ def mapa() -> None:
     st.metric("Cantidad de escuelas", contador)
     
     dict_coordenadas = {
-        "latitude": latitud,
-        "longitude": longitud,
+        "LAT": latitud,
+        "LON": longitud,
     }
     st.map(data=dict_coordenadas, size=50, color="#0044ff", zoom=5)
 
+
 def mapa_mun_niv(Data_set):
-    seleccion_mun = st.selectbox("seleccione el municipio", options= nm.nivel_ed)
+    seleccion_mun = st.selectbox("seleccione el municipio", options= nm.municipios(Data_set))
     if seleccion_mun:
-        seleccion_niv = nm.nivel_ed
+        seleccion_niv = nm.nivel_ed(Data_set)
         niveles_mult = st.multiselect("Selecciona los niveles educativos",options=seleccion_niv, default=seleccion_niv)
 
         lista_coordenadas = []
 
         for nivel in niveles_mult:
-            2
+            if nivel in nm.mun_niv(Data_set)[seleccion_mun]:
+                lista_coordenadas += nm.mun_niv(Data_set)[seleccion_mun][nivel]
+        if lista_coordenadas:
+            st.map(data=lista_coordenadas)
+
+            
 
 def barra_niveles() -> None:
     '''
@@ -91,5 +97,6 @@ def main() -> None:
     st.pyplot(fig)
 
     mapa()
+    mapa_mun_niv(programa.apertura_archivo())
     barra_niveles()
 main()

@@ -31,8 +31,8 @@ def mun_niv(Data_set:list):
         municipio = escuela["municipio_nombre"]
         nivel = escuela ["nivel"]
         coord = {
-            "latitud": float(escuela["latitud"]),
-            "longitud": float(escuela["longitud"])}
+            "LAT": float(escuela["latitud"]),
+            "LON": float(escuela["longitud"])}
 
         if municipio not in municipios_nivel:
             municipios_nivel[municipio] = {}
@@ -40,7 +40,6 @@ def mun_niv(Data_set:list):
             municipios_nivel[municipio][nivel] = [] 
         municipios_nivel[municipio][nivel].append(coord)
 
-    return municipios_nivel
-print(mun_niv(programa.apertura_archivo()))  
+    return municipios_nivel 
 
 
