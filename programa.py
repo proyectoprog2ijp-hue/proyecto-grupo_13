@@ -101,61 +101,6 @@ def modalidad(modalidad_entrada:str, dataset) -> tuple[list, list, list, int]:
 
     return lista_nombre, lista_latitud, lista_longitud, contador_comun
 
-
-def niveles_escuela(dataset:list) -> list:
-    '''
-    filtra los niveles de escuela y retorna una tupla con la cantidad de
-    escuelas de cada nivel, en el siguiente orden:
-    niveles_escuela() -> [ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, 
-                         for_profesional, casos_extras, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres,
-                        residencia_laboral_pasantias_artistica]
-    ejemplos:
-    niveles_escuela() -> [1200, 800, 10000, 2, 12, 124, 643, 623, 6328, 84, 687, 432, 145] 
-    '''
-    
-    ciclo_iniciacion = 0
-    inicial = 0
-    primario = 0
-    secundario = 0
-    for_integral = 0
-    superior = 0
-    plan_fines = 0
-    ed_fisica = 0
-    for_profesional = 0
-    ciclo_medio = 0
-    psico_comun_pedagogia_social = 0
-    cursos_talleres = 0
-    residencia_laboral_pasantias_artistica = 0
-    for nivel in dataset:
-        if nivel["nivel"] == "Ciclo de Iniciación":
-            ciclo_iniciacion += 1
-        elif nivel["nivel"] == "Nivel Inicial":
-            inicial += 1
-        elif nivel["nivel"] == "Nivel Primario":
-            primario += 1
-        elif nivel["nivel"] == "Nivel Secundario":
-            secundario += 1
-        elif nivel["nivel"] == "Formación Integral":
-            for_integral += 1
-        elif nivel["nivel"] == "Nivel Superior":
-            superior += 1
-        elif nivel["nivel"] == "Plan Fines (Trayectos y Deudores)":
-            plan_fines += 1
-        elif nivel["nivel"] == "Educación Física (C.E.F.)":
-            ed_fisica += 1
-        elif nivel["nivel"] == "Formación Profesional":
-            for_profesional += 1
-        elif nivel["nivel"] == "Ciclo Medio":
-            ciclo_medio += 1
-        elif nivel["nivel"] == "Psicología Comunitaria y Pedagogía Social (C.E.C)":
-            psico_comun_pedagogia_social += 1
-        elif nivel["nivel"] == "Cursos y Talleres":
-            cursos_talleres += 1
-        else:
-            residencia_laboral_pasantias_artistica += 1
-    lista = [ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, for_profesional, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres, residencia_laboral_pasantias_artistica]
-    return lista
-
 def numeros_identificacion(dataset:list) -> list:
     '''
     Filtra todos los números de identificación del archivo y los convierte a una lista.
@@ -205,3 +150,89 @@ def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
             seguir = False
         i += 1
     return informacion
+
+def nivel_ed(Data_set:list) -> list:
+    '''
+    Filtra los niveles educativos que existen en la provinciadef contador_niv(Data_set:list)->tuple[list,list]:
+    lista_niveles = nivel_ed(Data_set)
+    lista_salida = []    
+    for nivel in lista_niveles:
+        contador = 0
+        for fila in Data_set :
+            if fila["nivel"] == nivel:
+                contador += 1
+        lista_salida.append[contador]
+    return lista_niveles, lista_salida
+    
+
+    return:
+        lista : lista con los todos los niveles educativo que existen en la provincia de BSAS
+    '''
+    niveles = []
+    for escuela in Data_set :
+        if escuela["nivel"] not in niveles:
+            niveles.append(escuela["nivel"]) 
+    return niveles
+
+def municipios(Data_set:list):
+   '''
+   Filtra los municipios de la provincia
+
+   return:
+        lista: lista con todos los municipios de la provincia de BSAS
+   '''
+   municipio = []
+   for escuela in Data_set :
+        if escuela["municipio_nombre"] not in municipio:
+            municipio.append(escuela["municipio_nombre"]) 
+   return municipio
+
+def mun_niv(Data_set:list)->dict:
+    '''
+    Asocia a las escuelas a sus municipios correspondientes
+    agrupandolas por su nivel educativo
+
+    return:
+        
+        dict: diccionario de cada municipio con las coordenadas y niveles educativos 
+              de las escuelas asociadas a el
+    '''
+    municipios_nivel = {}  
+    for escuela in Data_set:
+        municipio = escuela["municipio_nombre"]
+        nivel = escuela ["nivel"]
+        coord = {
+            "LAT": float(escuela["latitud"]),
+            "LON": float(escuela["longitud"])}
+
+        if municipio not in municipios_nivel:
+            municipios_nivel[municipio] = {}
+        if nivel not in municipios_nivel[municipio] :
+            municipios_nivel[municipio][nivel] = [] 
+        municipios_nivel[municipio][nivel].append(coord)
+
+    return municipios_nivel
+
+
+def contador_niv(Data_set:list)->tuple[list,list]:
+    '''
+    Dado un data set, crea dos listas con los tipos de niveles educativos 
+    y la cantidad de cada uno.
+
+    return:
+        tuple : retorna una tupla con dos listas, una que contiene los distintos niveles educativos
+               y la otra contiene la cantidad de niveles educactivos, cada lista ordenada de igual manera.
+    '''
+    lista_niveles = nivel_ed(Data_set)
+    lista_salida = []    
+    for nivel in lista_niveles:
+        contador = 0
+        for fila in Data_set :
+            if fila["nivel"] == nivel:
+                contador += 1
+        lista_salida.append(contador)
+    return lista_niveles, lista_salida
+    
+
+
+

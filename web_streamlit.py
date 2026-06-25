@@ -5,7 +5,7 @@ Muestra un gráfico de barras con la cantidad de establecimientos
 educativos según su ámbito de localización.
 """
 '''
-import nivel_municipio as nm
+import nivel_municipio as programa
 import streamlit as st
 import programa
 import matplotlib.pyplot as plt
@@ -53,16 +53,16 @@ def mapa_mun_niv(Data_set):
     st.header("Ubicación escuelas según el municipio y su nivel")
     st.write("¿Cuáles son los establecimientos de nivel X en el municipio Y ?")
 
-    seleccion_mun = st.selectbox("seleccione el municipio", options= nm.municipios(Data_set))
+    seleccion_mun = st.selectbox("seleccione el municipio", options= programa.municipios(Data_set))
     if seleccion_mun:
-        seleccion_niv = nm.nivel_ed(Data_set)
+        seleccion_niv = programa.nivel_ed(Data_set)
         niveles_mult = st.multiselect("Selecciona los niveles educativos",options=seleccion_niv, default=seleccion_niv)
 
         lista_coordenadas = []
 
         for nivel in niveles_mult:
-            if nivel in nm.mun_niv(Data_set)[seleccion_mun]:
-                lista_coordenadas += nm.mun_niv(Data_set)[seleccion_mun][nivel]
+            if nivel in programa.mun_niv(Data_set)[seleccion_mun]:
+                lista_coordenadas += programa.mun_niv(Data_set)[seleccion_mun][nivel]
         if lista_coordenadas:
             st.map(data=lista_coordenadas)
 
@@ -75,9 +75,7 @@ def grafico_barra_niveles(dataset:list) -> None:
     st.write("¿Cuál es la cantidad de escuelas de cada nivel que hay en la provincia de Buenas Aires?")
 
     fig, ax = plt.subplots(facecolor="#59FF00FF")
-
-    niveles = ["Ciclo de Iniciación", "Nivel Inicial", "Nivel Primario", "Nivel Secundario", "Formación Integral", "Nivel Superior", "Plan Fines (Trayectos y Deudores)", "Educación Física (C.E.F.)", "Formación Profesional", "Ciclo Medio", "Psicología Comunitaria y Pedagogía Social (C.E.C)", "Cursos y Talleres", "Residencia Laboral,Pasantías, Artística"]
-    cantidad = programa.niveles_escuela(dataset)
+    niveles , cantidad = programa.contador_niv(dataset)
     error = [0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
 
     ax.barh(niveles, cantidad, xerr=error, align="center")
