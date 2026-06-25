@@ -34,9 +34,9 @@ def contador_ambito(dataset) -> tuple[list, list]:
         tupla: contador_urbano, contador_disperso, contador_agrupado, contador_error
     
     Ejemplos:
-        contador_ambito() -> ( 1026, 1083, 654, 2)
-        contador_ambito() -> (0, 0, 0, 0)  Si no hay dataset
-        contador_ambito() -> (1, 0, 0, 0)  Si hay solo un Establecimiento Urbano
+        contador_ambito() -> ["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"] [1026, 1083, 654, 2]
+        contador_ambito() -> ["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"] [0, 0, 0, 0]  Si no hay dataset
+        contador_ambito() -> ["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"] [1, 0, 0, 0]  Si hay solo un Establecimiento Urbano
     '''
     
 
@@ -158,7 +158,10 @@ def niveles_escuela(dataset:list) -> list:
 
 def numeros_identificacion(dataset:list) -> list:
     '''
-    Retorna una lista con los números de identificación de las escuelas.
+    Filtra todos los números de identificación del archivo y los convierte a una lista.
+
+    Return:
+        lista: todos los establecimiento_id
     
     Ejemplos:
         numeros_identificacion() -> ["12345", "67890", "54321", ...]
@@ -173,9 +176,11 @@ def numeros_identificacion(dataset:list) -> list:
 
 def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
     '''
-    Busca una escuela por su establecimiento_id y retorna un diccionario
-    con sus dataset principales y coordenadas para el mapa.
-    Si no la encuentra, retorna un diccionario vacío o con valores por defecto.
+    Busca una escuela por su establecimiento_id
+
+    Return:
+        diccionario: principales datasets del establecimiento seleccionado
+
     '''
     
     for escuela in dataset:
