@@ -80,7 +80,7 @@ def barra_niveles() -> None:
     fig, ax = plt.subplots(facecolor="#59FF00FF")
 
     niveles = ["Ciclo de Iniciación", "Nivel Inicial", "Nivel Primario", "Nivel Secundario", "Formación Integral", "Nivel Superior", "Plan Fines (Trayectos y Deudores)", "Educación Física (C.E.F.)", "Formación Profesional", "Ciclo Medio", "Psicología Comunitaria y Pedagogía Social (C.E.C)", "Cursos y Talleres", "Residencia Laboral,Pasantías, Artística"]
-    cantidad = programa.niveles_escuela()
+    cantidad = programa.niveles_escuela(programa.apertura_archivo())
     error = [0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
 
     ax.barh(niveles, cantidad, xerr=error, align="center")

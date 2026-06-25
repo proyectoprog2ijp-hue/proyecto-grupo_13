@@ -113,19 +113,17 @@ def controlador() -> tuple:
     
     return salida
 
-def niveles_escuela() -> tuple:
+def niveles_escuela(datos:list) -> list:
     '''
     filtra los niveles de escuela y retorna una tupla con la cantidad de
     escuelas de cada nivel, en el siguiente orden:
-    niveles_escuela() -> (ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, 
+    niveles_escuela() -> [ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, 
                          for_profesional, casos_extras, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres,
-                        residencia_laboral_pasantias_artistica)
+                        residencia_laboral_pasantias_artistica]
     ejemplos:
-    niveles_escuela() -> (1200, 800, 10000) Si hay 1200 escuelas de nvl. inicial, 800 de nvl. primario y 10000 nvl. secundario
-    niveles_escuela() -> (0, 0, 0) Si no hay escuelas de ningun nivel
-    niveles_escuela() -> (23, 0, 0)Si solo hay 23 escuelas de nivel inicial
+    niveles_escuela() -> [1200, 800, 10000, 2, 12, 124, 643, 623, 6328, 84, 687, 432, 145] 
     '''
-    datos = apertura_archivo()
+    
     ciclo_iniciacion = 0
     inicial = 0
     primario = 0
