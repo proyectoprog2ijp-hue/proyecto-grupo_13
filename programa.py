@@ -182,9 +182,13 @@ def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
         diccionario: principales datasets del establecimiento seleccionado
 
     '''
+    longitud_dataset = len(dataset)
+    i = 0
+    seguir = True
 
-    for escuela in dataset:
-        if escuela["establecimiento_id"] == id_buscado:
+    while i <= longitud_dataset and seguir:
+        if dataset[i]["establecimiento_id"] == id_buscado:
+            escuela = dataset[i]
             informacion = {
                 "nombre": escuela["establecimiento_nombre"],
                 "nivel": escuela["nivel"],
@@ -198,4 +202,6 @@ def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
                 "categoria": escuela["categoria"],
                 "desfavorabilidad": escuela["desfavorabilidad"]
             }
+            seguir = False
+        i += 1
     return informacion
