@@ -27,7 +27,7 @@ def apertura_archivo() -> list:
 
     return salida
 
-def contador_ambito(datos) -> tuple[int, int, int, int]:
+def contador_ambito(dataset) -> tuple[list, list]:
     '''
     cuenta los establecimientos según su ámbito y devuelve una tupla.
     
@@ -36,7 +36,7 @@ def contador_ambito(datos) -> tuple[int, int, int, int]:
     
     Ejemplos:
         contador_ambito() -> ( 1026, 1083, 654, 2)
-        contador_ambito() -> (0, 0, 0, 0)  Si no hay datos
+        contador_ambito() -> (0, 0, 0, 0)  Si no hay dataset
         contador_ambito() -> (1, 0, 0, 0)  Si hay solo un Establecimiento Urbano
     '''
     
@@ -46,7 +46,7 @@ def contador_ambito(datos) -> tuple[int, int, int, int]:
     contador_disperso = 0
     contador_urbano = 0
 
-    for categoria in datos:
+    for categoria in dataset:
         if categoria["ambito"] == "Urbano":
             contador_urbano += 1
         elif categoria["ambito"] == "Rural Disperso":
@@ -56,9 +56,22 @@ def contador_ambito(datos) -> tuple[int, int, int, int]:
         else:
             contador_error += 1
     
-    return contador_urbano, contador_disperso, contador_agrupado, contador_error
+    lista_x = ["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"]
+    lista_y = [contador_urbano, contador_disperso, contador_agrupado, contador_error]
 
-def modalidad(modalidad_entrada:str, datos) -> tuple[list, list, list, int]:
+    return lista_x, lista_y
+
+def elecciones_modalidades(dataset:list) -> list:
+    '''
+    Definimos las modalidades de las escuelas de la provincia de Bs Aires.
+    '''
+    modalidades = []
+    for i in dataset:
+        if i["modalidad"] not in modalidades:
+            modalidades.append(i["modalidad"]) 
+    return modalidades
+
+def modalidad(modalidad_entrada:str, dataset) -> tuple[list, list, list, int]:
     '''
     Filtra los establecimientos cuya modalidad coincide con
     modalidad_entrada()
@@ -74,14 +87,13 @@ def modalidad(modalidad_entrada:str, datos) -> tuple[list, list, list, int]:
         modalidad("Educación Artística") -> (["Esc B"], [-37.9], [-61.3], 1)
         modalidad("No existe")           -> ([], [], [], 0)
     '''
-    #datos = apertura_archivo()
 
     contador_comun = 0
     lista_nombre = []
     lista_latitud = []
     lista_longitud = []
 
-    for modalidad_tabla in datos:
+    for modalidad_tabla in dataset:
         if modalidad_tabla["modalidad"] == modalidad_entrada:
             contador_comun += 1
             lista_nombre.append(modalidad_tabla["establecimiento_nombre"])
@@ -90,30 +102,8 @@ def modalidad(modalidad_entrada:str, datos) -> tuple[list, list, list, int]:
 
     return lista_nombre, lista_latitud, lista_longitud, contador_comun
 
-def controlador(datos) -> tuple:
-    """
-    Coordina la ejecución del programa.
 
-    Verifica si el archivo pudo abrirse correctamente.
-    En ese caso, realiza el conteo de establecimientos.
-
-    Returns:
-        tupla: Resultado de la función contador().
-        tupla: vacía, en caso de extensión incorrecta.
-    
-    Ejemplos:
-        controlador() -> (10261, 1083, 654, 2)
-        controlador() -> (1, 0, 0, 0)  #Si solo hay un establecimiento urbano)
-        controlador() -> ()            #Si el archivo no es .csv)
-    """
-    if apertura_archivo() == []:
-        salida = ()
-    else:
-        salida = contador_ambito(datos)
-    
-    return salida
-
-def niveles_escuela(datos:list) -> list:
+def niveles_escuela(dataset:list) -> list:
     '''
     filtra los niveles de escuela y retorna una tupla con la cantidad de
     escuelas de cada nivel, en el siguiente orden:
@@ -137,7 +127,7 @@ def niveles_escuela(datos:list) -> list:
     psico_comun_pedagogia_social = 0
     cursos_talleres = 0
     residencia_laboral_pasantias_artistica = 0
-    for nivel in datos:
+    for nivel in dataset:
         if nivel["nivel"] == "Ciclo de Iniciación":
             ciclo_iniciacion += 1
         elif nivel["nivel"] == "Nivel Inicial":
@@ -167,30 +157,29 @@ def niveles_escuela(datos:list) -> list:
     lista = [ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, for_profesional, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres, residencia_laboral_pasantias_artistica]
     return lista
 
-def numeros_identificacion() -> list:
+def numeros_identificacion(dataset:list) -> list:
     '''
     Retorna una lista con los números de identificación de las escuelas.
     
     Ejemplos:
         numeros_identificacion() -> ["12345", "67890", "54321", ...]
-        numeros_identificacion() -> []  #Si no hay datos
+        numeros_identificacion() -> []  #Si no hay dataset
     '''
-    datos = apertura_archivo()
+
     lista_numeros = []
-    for escuela in datos:
+    for escuela in dataset:
         lista_numeros.append(escuela["establecimiento_id"])
     return lista_numeros
 
 
-def obtener_info_escuela(id_buscado: str) -> dict:
+def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
     '''
     Busca una escuela por su establecimiento_id y retorna un diccionario
-    con sus datos principales y coordenadas para el mapa.
+    con sus dataset principales y coordenadas para el mapa.
     Si no la encuentra, retorna un diccionario vacío o con valores por defecto.
     '''
-    datos = apertura_archivo()
     
-    for escuela in datos:
+    for escuela in dataset:
         if escuela["establecimiento_id"] == id_buscado:
             informacion = {
                 "nombre": escuela["establecimiento_nombre"],

@@ -10,42 +10,35 @@ import streamlit as st
 import programa
 import matplotlib.pyplot as plt
 
-
-def datos(dataset) -> list:
+def grafico_barra_ambito(dataset:list) -> None:
     '''
-    Obtiene los datos procesados por el módulo programa y los
-    transforma en una lista para ser graficado.
+    La funcion muestra un grafico de barras utilizando libreria matplotlib acerca de la cantidad
+    de escuelas según cada ámbito, contemplando si hay errores
     '''
-    resultado = programa.controlador(dataset)
+    st.header("Cantidad de escuelas según su ámbito")
+    st.write('¿Cómo es la distribución de las escuelas según su ámbito de localización?')
 
-    urbano, disperso, agrupado, error = resultado
+    x, y = programa.contador_ambito(dataset)
 
-    lista_x = ["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"]
-    lista_y = [urbano, disperso, agrupado, error]
+    fig, ax = plt.subplots(facecolor="#2D2D2F")
+    ax.set_facecolor("#2B2B2B")
+    bar_container = ax.bar(x, y)
+    ax.set(ylabel='Cantidad de escuelas', title='Ámbitos escolares', ylim=(0, 12000))
+    ax.bar_label(bar_container, fmt='{:,.0f}')
 
-    return lista_x, lista_y
+    st.pyplot(fig)        
 
-def elecciones_modalidades(datos) -> list:
-    '''
-    dEfinimos las modalidades de las escuelas de la provincia de Bs Aires.
-    '''
-    #lista = programa.apertura_archivo()
-    modalidades = []
-    for i in datos:
-        if i["modalidad"] not in modalidades:
-            modalidades.append(i["modalidad"]) 
-    return modalidades
-        
-
-def mapa(datos) -> None:
+def mapa_modalidad(dataset:list) -> None:
     '''
     Muestra: un menú desplegable para seleccionar una modalidad,
              el total de escuelas de esa modalidad y su ubicación en un
             mapa interactivo.
     '''
-    eleccion = st.selectbox("Seleccione Modalidad", options=elecciones_modalidades(datos))
+    st.header("Ubicación escuelas según su modalidad")
+
+    eleccion = st.selectbox("Seleccione Modalidad", options=programa.elecciones_modalidades(dataset))
     
-    nombre, latitud, longitud, contador = programa.modalidad(eleccion, datos)
+    nombre, latitud, longitud, contador = programa.modalidad(eleccion, dataset)
 
     st.metric("Cantidad de escuelas", contador)
     
@@ -55,8 +48,9 @@ def mapa(datos) -> None:
     }
     st.map(data=dict_coordenadas, size=50, color="#0044ff", zoom=5)
 
-
 def mapa_mun_niv(Data_set):
+    st.header("Ubicación escuelas según el municipio y su nivel")
+
     seleccion_mun = st.selectbox("seleccione el municipio", options= nm.municipios(Data_set))
     if seleccion_mun:
         seleccion_niv = nm.nivel_ed(Data_set)
@@ -70,17 +64,17 @@ def mapa_mun_niv(Data_set):
         if lista_coordenadas:
             st.map(data=lista_coordenadas)
 
-            
-
-def barra_niveles() -> None:
+def grafico_barra_niveles(dataset:list) -> None:
     '''
-    toma el resultado de la funcion programa.niveles_escuela(datos) y lo grafica en la web mostrando las cantidades
+    toma el resultado de la funcion programa.niveles_escuela(dataset) y lo grafica en la web mostrando las cantidades
     de escuelas de cada nivel a traves de un grafico de barras
     '''
+    st.header("Cantidad de escuelas según su nivel educativo")
+
     fig, ax = plt.subplots(facecolor="#59FF00FF")
 
     niveles = ["Ciclo de Iniciación", "Nivel Inicial", "Nivel Primario", "Nivel Secundario", "Formación Integral", "Nivel Superior", "Plan Fines (Trayectos y Deudores)", "Educación Física (C.E.F.)", "Formación Profesional", "Ciclo Medio", "Psicología Comunitaria y Pedagogía Social (C.E.C)", "Cursos y Talleres", "Residencia Laboral,Pasantías, Artística"]
-    cantidad = programa.niveles_escuela(programa.apertura_archivo())
+    cantidad = programa.niveles_escuela(dataset)
     error = [0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
 
     ax.barh(niveles, cantidad, xerr=error, align="center")
@@ -90,15 +84,15 @@ def barra_niveles() -> None:
     
     st.pyplot(fig)
 
-def informacion_escuela() -> None:
+def informacion_escuela(dataset:list) -> None:
     '''
     Muestra un menú desplegable para seleccionar el numero de identificación de la escuela y luego muestra la información de esa escuela y la ubicación en un mapa.
     '''
     st.header("Información de la escuela")
-    seleccion = st.selectbox("Seleccione o escriba el número de identificación", options=programa.numeros_identificacion())
+    seleccion = st.selectbox("Seleccione o escriba el número de identificación", options=programa.numeros_identificacion(dataset))
 
     if seleccion:
-        informacion = programa.obtener_info_escuela(seleccion)
+        informacion = programa.obtener_info_escuela(seleccion, dataset)
 
         dict_coordenadas = {
             "lat": [float(informacion["LAT"])],
@@ -121,20 +115,14 @@ def main() -> None:
     Función principal de la aplicación.
     """
     st.title('Proyecto grupal de Programación 2')
-    st.write('¿Cómo es la distribución de las escuelas según su ámbito de localización?')
 
-    x, y = datos(programa.apertura_archivo())
+    dataset = programa.apertura_archivo()
 
-    fig, ax = plt.subplots(facecolor="#2D2D2F")
-    ax.set_facecolor("#2B2B2B")
-    bar_container = ax.bar(x, y)
-    ax.set(ylabel='Cantidad de escuelas', title='Ámbitos escolares', ylim=(0, 12000))
-    ax.bar_label(bar_container, fmt='{:,.0f}')
+    grafico_barra_ambito(dataset)
+    grafico_barra_niveles(dataset)
 
-    st.pyplot(fig)
+    mapa_modalidad(dataset)
+    mapa_mun_niv(dataset)
 
-    mapa(programa.apertura_archivo())
-    mapa_mun_niv(programa.apertura_archivo())
-    barra_niveles()
-    informacion_escuela()
+    informacion_escuela(dataset)
 main()
