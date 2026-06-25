@@ -89,7 +89,32 @@ def barra_niveles() -> None:
     ax.set_title("Cantidad de escuelas por nivel educativo.")
     
     st.pyplot(fig)
-    
+
+def informacion_escuela() -> None:
+    '''
+    Muestra un menú desplegable para seleccionar el numero de identificación de la escuela y luego muestra la información de esa escuela y la ubicación en un mapa.
+    '''
+    st.header("Información de la escuela")
+    seleccion = st.selectbox("Seleccione o escriba el número de identificación", options=programa.numeros_identificacion())
+
+    if seleccion:
+        informacion = programa.obtener_info_escuela(seleccion)
+
+        dict_coordenadas = {
+            "lat": [float(informacion["LAT"])],
+            "lon": [float(informacion["LON"])]
+        }
+
+        tarjeta = st.container(border=True)
+        tarjeta.write("Nombre: " + informacion["nombre"])
+        tarjeta.write("• Nivel: " + informacion["nivel"])
+        tarjeta.write("• Municipio: " + informacion["municipio"])
+        tarjeta.write("• Dirección: " + informacion["direccion"])
+        tarjeta.write("• Teléfono: " + informacion["telefono"])
+        tarjeta.write("• Mail: " + informacion["mail"])
+        tarjeta.write("• Turnos: " + informacion["turnos"])
+        tarjeta.write("")
+        tarjeta.map(data=dict_coordenadas, size=50, color="#00e1ff", zoom=14)
 
 def main() -> None:
     """
@@ -111,4 +136,5 @@ def main() -> None:
     mapa(programa.apertura_archivo())
     mapa_mun_niv(programa.apertura_archivo())
     barra_niveles()
+    informacion_escuela()
 main()

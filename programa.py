@@ -167,3 +167,40 @@ def niveles_escuela(datos:list) -> list:
     lista = [ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, for_profesional, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres, residencia_laboral_pasantias_artistica]
     return lista
 
+def numeros_identificacion() -> list:
+    '''
+    Retorna una lista con los números de identificación de las escuelas.
+    
+    Ejemplos:
+        numeros_identificacion() -> ["12345", "67890", "54321", ...]
+        numeros_identificacion() -> []  #Si no hay datos
+    '''
+    datos = apertura_archivo()
+    lista_numeros = []
+    for escuela in datos:
+        lista_numeros.append(escuela["establecimiento_id"])
+    return lista_numeros
+
+
+def obtener_info_escuela(id_buscado: str) -> dict:
+    '''
+    Busca una escuela por su establecimiento_id y retorna un diccionario
+    con sus datos principales y coordenadas para el mapa.
+    Si no la encuentra, retorna un diccionario vacío o con valores por defecto.
+    '''
+    datos = apertura_archivo()
+    
+    for escuela in datos:
+        if escuela["establecimiento_id"] == id_buscado:
+            informacion = {
+                "nombre": escuela["establecimiento_nombre"],
+                "nivel": escuela["nivel"],
+                "municipio": escuela["municipio_nombre"],
+                "direccion": escuela["direccion"],
+                "telefono": escuela["telefono"],
+                "mail": escuela["email"],
+                "turnos": escuela["turnos"],
+                "LAT": escuela["latitud"],
+                "LON": escuela["longitud"]
+            }
+    return informacion
