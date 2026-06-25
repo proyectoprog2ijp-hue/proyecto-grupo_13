@@ -35,6 +35,7 @@ def mapa_modalidad(dataset:list) -> None:
             mapa interactivo.
     '''
     st.header("Ubicación escuelas según su modalidad")
+    st.write("¿Cuáles y cuántos son los establecimientos que hay en una X localidad?")
 
     eleccion = st.selectbox("Seleccione Modalidad", options=programa.elecciones_modalidades(dataset))
     
@@ -50,6 +51,7 @@ def mapa_modalidad(dataset:list) -> None:
 
 def mapa_mun_niv(Data_set):
     st.header("Ubicación escuelas según el municipio y su nivel")
+    st.write("¿Cuáles son los establecimientos de nivel X en el municipio Y ?")
 
     seleccion_mun = st.selectbox("seleccione el municipio", options= nm.municipios(Data_set))
     if seleccion_mun:
@@ -70,6 +72,7 @@ def grafico_barra_niveles(dataset:list) -> None:
     de escuelas de cada nivel a traves de un grafico de barras
     '''
     st.header("Cantidad de escuelas según su nivel educativo")
+    st.write("¿Cuál es la cantidad de escuelas de cada nivel que hay en la provincia de Buenas Aires?")
 
     fig, ax = plt.subplots(facecolor="#59FF00FF")
 
@@ -89,6 +92,7 @@ def informacion_escuela(dataset:list) -> None:
     Muestra un menú desplegable para seleccionar el numero de identificación de la escuela y luego muestra la información de esa escuela y la ubicación en un mapa.
     '''
     st.header("Información de la escuela")
+    st.write("¿Cuál es la categoría y el nivel de desfavorabilidad de una institución educativa X?")
     seleccion = st.selectbox("Seleccione o escriba el número de identificación", options=programa.numeros_identificacion(dataset))
 
     if seleccion:
@@ -100,7 +104,9 @@ def informacion_escuela(dataset:list) -> None:
         }
 
         tarjeta = st.container(border=True)
-        tarjeta.write("Nombre: " + informacion["nombre"])
+        tarjeta.subheader(informacion["nombre"])
+        tarjeta.markdown(":green-badge[Categoria: " + informacion["categoria"] + "]"
+                         ":orange-badge[Desfavorabilidad: " + informacion["desfavorabilidad"] + "]")
         tarjeta.write("• Nivel: " + informacion["nivel"])
         tarjeta.write("• Municipio: " + informacion["municipio"])
         tarjeta.write("• Dirección: " + informacion["direccion"])

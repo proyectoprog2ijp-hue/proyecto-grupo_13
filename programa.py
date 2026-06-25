@@ -1,7 +1,7 @@
 import codecs
 import csv
 
-def apertura_archivo() -> list:
+def apertura_archivo(direccion:str="establecimientos-educativos-12K.csv") -> list:
     '''
     La función comprueba que el archivo dado sea de tipo .csv
     si es así abre el archivo alojado en dirección y retorna
@@ -17,7 +17,6 @@ def apertura_archivo() -> list:
         apertura_archivo() -> [{"establecimiento_nombre": "Esc B", "ambito": "Rural Disperso", ...}, ...]
         apertura_archivo() -> [] #Si el archivo no tiene extensión .csv
     '''
-    direccion = "establecimientos-educativos-12K.csv"
 
     if direccion[-4:] == ".csv":
         archivo = open(direccion, newline='')
@@ -190,6 +189,8 @@ def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
                 "mail": escuela["email"],
                 "turnos": escuela["turnos"],
                 "LAT": escuela["latitud"],
-                "LON": escuela["longitud"]
+                "LON": escuela["longitud"],
+                "categoria": escuela["categoria"],
+                "desfavorabilidad": escuela["desfavorabilidad"]
             }
     return informacion
