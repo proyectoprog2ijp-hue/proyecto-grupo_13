@@ -124,11 +124,14 @@ def main() -> None:
 
     dataset = programa.apertura_archivo()
 
-    grafico_barra_ambito(dataset)
-    grafico_barra_niveles(dataset)
+    if dataset == []:
+        st.error("El archivo no tiene extensión .csv")
+    else:
+        grafico_barra_ambito(dataset)
+        grafico_barra_niveles(dataset)
 
-    mapa_modalidad(dataset)
-    mapa_mun_niv(dataset)
-
-    informacion_escuela(dataset)
+        mapa_modalidad(dataset)
+        mapa_mun_niv(dataset)
+        
+        informacion_escuela(dataset)
 main()
