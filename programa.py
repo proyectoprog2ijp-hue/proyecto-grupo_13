@@ -27,7 +27,7 @@ def apertura_archivo() -> list:
 
     return salida
 
-def contador_ambito() -> tuple[int, int, int, int]:
+def contador_ambito(datos) -> tuple[int, int, int, int]:
     '''
     cuenta los establecimientos según su ámbito y devuelve una tupla.
     
@@ -35,11 +35,11 @@ def contador_ambito() -> tuple[int, int, int, int]:
         tupla: contador_urbano, contador_disperso, contador_agrupado, contador_error
     
     Ejemplos:
-        contador_ambito() -> (1026, 1083, 654, 2)
+        contador_ambito() -> ( 1026, 1083, 654, 2)
         contador_ambito() -> (0, 0, 0, 0)  Si no hay datos
         contador_ambito() -> (1, 0, 0, 0)  Si hay solo un Establecimiento Urbano
     '''
-    datos = apertura_archivo()
+    
 
     contador_error = 0
     contador_agrupado = 0
@@ -58,7 +58,7 @@ def contador_ambito() -> tuple[int, int, int, int]:
     
     return contador_urbano, contador_disperso, contador_agrupado, contador_error
 
-def modalidad(modalidad_entrada:str) -> tuple[list, list, list, int]:
+def modalidad(modalidad_entrada:str, datos) -> tuple[list, list, list, int]:
     '''
     Filtra los establecimientos cuya modalidad coincide con
     modalidad_entrada()
@@ -74,7 +74,7 @@ def modalidad(modalidad_entrada:str) -> tuple[list, list, list, int]:
         modalidad("Educación Artística") -> (["Esc B"], [-37.9], [-61.3], 1)
         modalidad("No existe")           -> ([], [], [], 0)
     '''
-    datos = apertura_archivo()
+    #datos = apertura_archivo()
 
     contador_comun = 0
     lista_nombre = []
@@ -90,7 +90,7 @@ def modalidad(modalidad_entrada:str) -> tuple[list, list, list, int]:
 
     return lista_nombre, lista_latitud, lista_longitud, contador_comun
 
-def controlador() -> tuple:
+def controlador(datos) -> tuple:
     """
     Coordina la ejecución del programa.
 
@@ -109,7 +109,7 @@ def controlador() -> tuple:
     if apertura_archivo() == []:
         salida = ()
     else:
-        salida = contador_ambito()
+        salida = contador_ambito(datos)
     
     return salida
 
