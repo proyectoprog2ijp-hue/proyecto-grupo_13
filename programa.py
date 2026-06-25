@@ -182,7 +182,7 @@ def obtener_info_escuela(id_buscado: str, dataset:list) -> dict:
         diccionario: principales datasets del establecimiento seleccionado
 
     '''
-    
+
     for escuela in dataset:
         if escuela["establecimiento_id"] == id_buscado:
             informacion = {
