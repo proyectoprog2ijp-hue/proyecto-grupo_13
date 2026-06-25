@@ -166,5 +166,6 @@ def niveles_escuela() -> tuple:
             cursos_talleres += 1
         else:
             residencia_laboral_pasantias_artistica += 1
-    return ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, for_profesional, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres, residencia_laboral_pasantias_artistica
+    lista = [ciclo_iniciacion, inicial, primario, secundario, for_integral, superior, plan_fines, ed_fisica, for_profesional, ciclo_medio, psico_comun_pedagogia_social, cursos_talleres, residencia_laboral_pasantias_artistica]
+    return lista
 

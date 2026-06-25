@@ -77,6 +77,18 @@ def barra_niveles() -> None:
     toma el resultado de la funcion programa.niveles_escuela() y lo grafica en la web mostrando las cantidades
     de escuelas de cada nivel a traves de un grafico de barras
     '''
+    fig, ax = plt.subplots(facecolor="#59FF00FF")
+
+    niveles = ["Ciclo de Iniciación", "Nivel Inicial", "Nivel Primario", "Nivel Secundario", "Formación Integral", "Nivel Superior", "Plan Fines (Trayectos y Deudores)", "Educación Física (C.E.F.)", "Formación Profesional", "Ciclo Medio", "Psicología Comunitaria y Pedagogía Social (C.E.C)", "Cursos y Talleres", "Residencia Laboral,Pasantías, Artística"]
+    cantidad = programa.niveles_escuela()
+    error = [0.1, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+
+    ax.barh(niveles, cantidad, xerr=error, align="center")
+    ax.yaxis.set_inverted(True)
+    ax.set_xlabel("Cantidad de escuelas.")
+    ax.set_title("Cantidad de escuelas por nivel educativo.")
+    
+    st.pyplot(fig)
     
 
 def main() -> None:
