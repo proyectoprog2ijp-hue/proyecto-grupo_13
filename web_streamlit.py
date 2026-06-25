@@ -52,17 +52,17 @@ def mapa_modalidad(dataset:list) -> None:
 def mapa_mun_niv(Data_set):
     st.header("Ubicación escuelas según el municipio y su nivel")
     st.write("¿Cuáles son los establecimientos de nivel X en el municipio Y ?")
-
+    datos = programa.mun_niv(Data_set)
     seleccion_mun = st.selectbox("seleccione el municipio", options= programa.municipios(Data_set))
     if seleccion_mun:
         seleccion_niv = programa.nivel_ed(Data_set)
         niveles_mult = st.multiselect("Selecciona los niveles educativos",options=seleccion_niv, default=seleccion_niv)
-
+        
         lista_coordenadas = []
 
         for nivel in niveles_mult:
-            if nivel in programa.mun_niv(Data_set)[seleccion_mun]:
-                lista_coordenadas += programa.mun_niv(Data_set)[seleccion_mun][nivel]
+            if nivel in datos[seleccion_mun]:
+                lista_coordenadas += datos[seleccion_mun][nivel]
         if lista_coordenadas:
             st.map(data=lista_coordenadas)
 
