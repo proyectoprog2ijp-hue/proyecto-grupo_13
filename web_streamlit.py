@@ -5,6 +5,7 @@ Muestra un gráfico de barras con la cantidad de establecimientos
 educativos según su ámbito de localización.
 """
 '''
+import nivel_municipio as nm
 import streamlit as st
 import programa
 import matplotlib.pyplot as plt
@@ -59,6 +60,15 @@ def mapa() -> None:
     }
     st.map(data=dict_coordenadas, size=50, color="#0044ff", zoom=5)
 
+def mapa_mun_niv(Data_set):
+    seleccion_mun = st.selectbox("seleccione el municipio", options= nm.nivel_ed)
+    if seleccion_mun:
+        seleccion_niv = nm.nivel_ed
+        niveles_mult = st.multiselect("Selecciona los niveles educativos",options=seleccion_niv, default=seleccion_niv)
+
+        lista_coordenadas = []
+
+        for nivel in niveles_mult:
 
 def main() -> None:
     """
