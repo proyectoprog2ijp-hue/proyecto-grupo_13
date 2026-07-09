@@ -146,18 +146,19 @@ def main() -> None:
     st.image("/workspaces/proyecto-grupo_13/logo_pagina.png")
 
     dataset = programa.apertura_archivo()
-    seleccion = st.radio("Seleccioná una opción para comenzar:", options=[
-        "Gráfico de barras por ámbito",
-        "Gráfico de barras por nivel educativo",
-        "Mapa de escuelas según modalidad", 
-        "Mapa de escuelas según municipio y nivel educativo",
-        "Información de una escuela",
-        "Gráfico según el porcentaje de dependencias"])
+    seleccion = st.radio(
+        "Seleccioná una opción para comenzar:", 
+        options=[
+            "Gráfico de barras por ámbito",
+            "Gráfico de barras por nivel educativo",
+            "Mapa de escuelas según modalidad", 
+            "Mapa de escuelas según municipio y nivel educativo",
+            "Información de una escuela",
+            "Gráfico según el porcentaje de dependencias"],
+        index=None)
 
     if dataset == []:
         st.error("El archivo no tiene extensión .csv")
-    elif seleccion == "Seleccione una opción":
-        st.warning("Seleccione una opción para continuar")
     elif seleccion == "Gráfico de barras por ámbito":
         grafico_barra_ambito(dataset)
     elif seleccion == "Gráfico de barras por nivel educativo":
@@ -171,5 +172,5 @@ def main() -> None:
     elif seleccion == "Gráfico según el porcentaje de dependencias":
         grafico_dependencias(dataset)
     else:
-        st.error("Opción no válida")
+        st.info("Seleccione una opción para continuar")
 main()
