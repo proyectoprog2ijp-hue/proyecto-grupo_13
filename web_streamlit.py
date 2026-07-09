@@ -118,6 +118,9 @@ def main() -> None:
     """
     Función principal de la aplicación.
     """
+    st.set_page_config(
+    page_title="Grupo 13 — Prog II",
+    page_icon="🏫")
     st.image("/workspaces/proyecto-grupo_13/logo_pagina.png")
 
     dataset = programa.apertura_archivo()
