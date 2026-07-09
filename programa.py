@@ -238,6 +238,10 @@ def dependencias(data_set:list) -> dict:
     Devuelve un diccionario con los porcentajes de cada tipo de dependencia de las escuelas en la provincia.
     Primero analiza el dataset y luego genera un diccionario con el tipo de dependencia y el porcentaje de escuelas que pertenecen a esa dependencia.
     Las claves del diccionario será el tipo de dependencia y el valor será el porcentaje de escuelas que pertenecen a esa dependencia.
+    
+    return:
+        dict: diccionario con los porcentajes de cada tipo de dependencia de las escuelas en la provincia.
+              value: dependencia, key: porcentaje de escuelas que pertenecen a esa dependencia.
     '''
     salida = {}
     total_escuelas = len(data_set)
