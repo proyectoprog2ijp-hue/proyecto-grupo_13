@@ -118,18 +118,23 @@ def main() -> None:
     """
     Función principal de la aplicación.
     """
-    st.title('Proyecto grupal de Programación 2')
+    st.image("/workspaces/proyecto-grupo_13/logo_pagina.png")
 
     dataset = programa.apertura_archivo()
+    seleccion = st.radio("", options=["Seleccione una opción","Gráfico de barras por ámbito", "Gráfico de barras por nivel educativo", "Mapa de escuelas según modalidad", "Mapa de escuelas según municipio y nivel educativo", "Información de una escuela"])
 
     if dataset == []:
         st.error("El archivo no tiene extensión .csv")
-    else:
+    elif seleccion == "Seleccione una opción":
+        st.warning("Seleccione una opción para continuar")
+    elif seleccion == "Gráfico de barras por ámbito":
         grafico_barra_ambito(dataset)
+    elif seleccion == "Gráfico de barras por nivel educativo":
         grafico_barra_niveles(dataset)
-
+    elif seleccion == "Mapa de escuelas según modalidad":
         mapa_modalidad(dataset)
+    elif seleccion == "Mapa de escuelas según municipio y nivel educativo":
         mapa_mun_niv(dataset)
-        
+    elif seleccion == "Información de una escuela":
         informacion_escuela(dataset)
 main()
