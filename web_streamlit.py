@@ -5,7 +5,6 @@ Muestra un gráfico de barras con la cantidad de establecimientos
 educativos según su ámbito de localización.
 """
 '''
-import nivel_municipio as programa
 import streamlit as st
 import programa
 import matplotlib.pyplot as plt
