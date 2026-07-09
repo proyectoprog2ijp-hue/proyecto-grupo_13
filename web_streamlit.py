@@ -142,7 +142,7 @@ def main() -> None:
 
     st.title("Análisis de establecimientos educativos en la provincia de Buenos Aires")
     st.header("Grupo 13 — Programación II")
-    st.image("/workspaces/proyecto-grupo_13/logo_pagina.png")
+    st.image("logo_pagina.png")
 
     dataset = programa.apertura_archivo()
     seleccion = st.radio(
