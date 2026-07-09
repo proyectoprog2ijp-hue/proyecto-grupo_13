@@ -114,6 +114,25 @@ def informacion_escuela(dataset:list) -> None:
         tarjeta.write("")
         tarjeta.map(data=dict_coordenadas, size=50, color="#00e1ff", zoom=14)
 
+def grafico_dependencias(dataset:list) -> None:
+    '''
+    Muestra un gráfico circular generado por matplotlib según los porcentajes de escuelas que hay en la provincia según su dependencia.
+    '''
+    st.header("Porcentaje de escuelas según su dependencia")
+    st.write("¿Cuál es el porcentaje de escuelas según su dependencia en la provincia de Buenos Aires?")
+
+    dependencias = programa.dependencias(dataset)
+    tipo_dependencia = list(dependencias.keys())
+    cantidades = list(dependencias.values())
+
+    fig, ax = plt.subplots()
+    ax.pie(cantidades,
+           labels=tipo_dependencia,
+           autopct='%1.1f%%')
+    ax.axis('equal')
+
+    st.pyplot(fig)
+
 def main() -> None:
     """
     Función principal de la aplicación.
@@ -121,10 +140,19 @@ def main() -> None:
     st.set_page_config(
     page_title="Grupo 13 — Prog II",
     page_icon="🏫")
+
+    st.title("Análisis de establecimientos educativos en la provincia de Buenos Aires")
+    st.header("Grupo 13 — Programación II")
     st.image("/workspaces/proyecto-grupo_13/logo_pagina.png")
 
     dataset = programa.apertura_archivo()
-    seleccion = st.radio("", options=["Seleccione una opción","Gráfico de barras por ámbito", "Gráfico de barras por nivel educativo", "Mapa de escuelas según modalidad", "Mapa de escuelas según municipio y nivel educativo", "Información de una escuela"])
+    seleccion = st.radio("Seleccioná una opción para comenzar:", options=[
+        "Gráfico de barras por ámbito",
+        "Gráfico de barras por nivel educativo",
+        "Mapa de escuelas según modalidad", 
+        "Mapa de escuelas según municipio y nivel educativo",
+        "Información de una escuela",
+        "Gráfico según el porcentaje de dependencias"])
 
     if dataset == []:
         st.error("El archivo no tiene extensión .csv")
@@ -140,4 +168,8 @@ def main() -> None:
         mapa_mun_niv(dataset)
     elif seleccion == "Información de una escuela":
         informacion_escuela(dataset)
+    elif seleccion == "Gráfico según el porcentaje de dependencias":
+        grafico_dependencias(dataset)
+    else:
+        st.error("Opción no válida")
 main()

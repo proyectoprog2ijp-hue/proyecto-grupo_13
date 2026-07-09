@@ -232,7 +232,23 @@ def contador_niv(Data_set:list)->tuple[list,list]:
                 contador += 1
         lista_salida.append(contador)
     return lista_niveles, lista_salida
-    
 
+def dependencias(data_set:list) -> dict:
+    '''
+    Devuelve un diccionario con los porcentajes de cada tipo de dependencia de las escuelas en la provincia.
+    Primero analiza el dataset y luego genera un diccionario con el tipo de dependencia y el porcentaje de escuelas que pertenecen a esa dependencia.
+    Las claves del diccionario será el tipo de dependencia y el valor será el porcentaje de escuelas que pertenecen a esa dependencia.
+    '''
+    salida = {}
+    total_escuelas = len(data_set)
 
+    for escuela in data_set:
+        dependencia = escuela["dependencia"]
+        if dependencia not in salida:
+            salida[dependencia] = 0
+        salida[dependencia] += 1
 
+    for dependencia in salida:
+        salida[dependencia] = (salida[dependencia] / total_escuelas) * 100
+
+    return salida
