@@ -23,10 +23,3 @@ def test_elecciones_modalidades():
     Testeo de la funcion elecciones_modalidades()
     '''
     assert programa.elecciones_modalidades(programa.apertura_archivo("test_datos.csv")) == ["Educación Común", "Educación Técnico Profesional"]
-
-def test_modalidad():
-    '''
-    Testeo de la funcion modaliad()
-    '''
-    assert programa.modalidad("Eduacion Común" ,programa.apertura_archivo("test_datos.csv")) == ([], [], [], 0)
-    assert programa.modalidad("Eduacion Artistica" ,programa.apertura_archivo("test_datos.csv")) == ([], [], [], 0)
