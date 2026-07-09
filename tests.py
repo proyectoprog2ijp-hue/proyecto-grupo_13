@@ -10,3 +10,23 @@ def test_apertura_archivo():
     #la extensión del archivo es incorrecta
     assert programa.apertura_archivo("test_datos.xlsx") == []
     assert programa.apertura_archivo("entrada_datos.txt") == []
+
+def test_contador_ambito():
+    '''
+    Testeo de la funcion contador_ambito()
+    '''
+    assert programa.contador_ambito(programa.apertura_archivo("test_datos.csv")) == (["Urbano", "Rural Disperso", "Rural Agrupado", "Errores"],
+                                                           [1, 1, 1, 0])
+    
+def test_elecciones_modalidades():
+    '''
+    Testeo de la funcion elecciones_modalidades()
+    '''
+    assert programa.elecciones_modalidades(programa.apertura_archivo("test_datos.csv")) == ["Educación Común", "Educación Técnico Profesional"]
+
+def test_modalidad():
+    '''
+    Testeo de la funcion modaliad()
+    '''
+    assert programa.modalidad("Eduacion Común" ,programa.apertura_archivo("test_datos.csv")) == ([], [], [], 0)
+    assert programa.modalidad("Eduacion Artistica" ,programa.apertura_archivo("test_datos.csv")) == ([], [], [], 0)
